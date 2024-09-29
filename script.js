@@ -1,4 +1,3 @@
-// script.js
 document.addEventListener("DOMContentLoaded", function () {
   // Load the navigation bar from navbar.html into the #navbar-container
   fetch("navbar.html")
@@ -12,22 +11,24 @@ document.addEventListener("DOMContentLoaded", function () {
 
       toggleBtn.addEventListener("click", function () {
         menu.classList.toggle("active");
+        toggleBtn.setAttribute(
+          "aria-expanded",
+          menu.classList.contains("active")
+        );
+      });
+
+      // Close menu if clicked outside
+      document.addEventListener("click", function (event) {
+        if (
+          menu &&
+          !menu.contains(event.target) &&
+          !toggleBtn.contains(event.target) &&
+          menu.classList.contains("active")
+        ) {
+          menu.classList.remove("active");
+          toggleBtn.setAttribute("aria-expanded", "false");
+        }
       });
     })
     .catch((error) => console.error("Error loading navigation:", error));
-
-  // Close menu if clicked outside
-  document.addEventListener("click", function (event) {
-    const menu = document.getElementById("nav-links");
-    const toggleBtn = document.querySelector(".toggle-btn");
-
-    if (
-      menu &&
-      !menu.contains(event.target) &&
-      !toggleBtn.contains(event.target) &&
-      menu.classList.contains("active")
-    ) {
-      menu.classList.remove("active");
-    }
-  });
 });
