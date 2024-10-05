@@ -1,240 +1,163 @@
-/* Base Styling */
-:root {
-  --primary-color: #2d0e85;
-  --secondary-color: #113d46;
-  --background-color: #cac0c0;
-  --text-color: #1a0c0c;
-  --navbar-bg: #487259;
-  --transition: all 0.3s ease;
-}
-
-body,
-html {
+/* Global Reset and Base Styles */
+* {
   margin: 0;
   padding: 0;
-  font-family: "Roboto", sans-serif;
-  background-color: var(--background-color);
-  color: var(--text-color);
-  line-height: 1.6;
-  overflow-x: hidden;
+  box-sizing: border-box;
 }
 
-/* Navbar Styling */
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+}
+
+/* Navbar Styles */
 .navbar {
-  background-color: var(--navbar-bg);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  width: 100%;
+  background-color: #f8f9fa;
+  padding: 1rem;
+  position: relative; /* Ensure it positions correctly */
+  z-index: 1000; /* Ensure it stays above other content */
 }
 
 .navbar-container {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-  max-width: 1400px;
+  align-items: center; /* Align items vertically center */
+  max-width: 1200px;
   margin: 0 auto;
 }
 
 .logo img {
-  width: 50px;
-  height: auto;
+  height: 40px;
 }
 
+/* Nav Links */
 .nav-links {
   display: flex;
   list-style: none;
-  margin: 0;
-  padding: 0;
-  gap: 20px;
+  align-items: center; /* Keep links aligned */
 }
 
+/* Underline effect on hover for larger screens */
 .nav-links a {
-  color: #ffffff;
   text-decoration: none;
-  font-size: 16px;
+  color: #333;
   position: relative;
-  padding: 10px;
-  transition: var(--transition);
+  transition: color 0.3s ease;
+  font-size: 16px; /* Default font size for larger screens */
 }
 
-.nav-links a:hover {
-  color: var(--secondary-color);
-}
-
+/* Center to fully underline effect */
 .nav-links a::after {
   content: "";
   position: absolute;
-  width: 0;
+  width: 100%;
   height: 2px;
-  bottom: 0;
+  background: #333;
+  bottom: -4px;
   left: 50%;
-  background-color: #37b887;
-  transition: var(--transition);
+  transform: translateX(-50%) scaleX(0); /* Center and hide initially */
+  transition: transform 0.3s ease; /* Transition for scaling */
 }
 
 .nav-links a:hover::after {
-  width: 100%;
-  left: 0;
+  transform: translateX(-50%) scaleX(1); /* Scale to full width on hover */
 }
 
+/* Signup Button */
 .signup-btn a {
-  background-color: var(--secondary-color);
-  color: #ffffff;
-  padding: 10px 15px;
+  background-color: #007bff;
+  color: #fff;
+  padding: 0.5rem 1rem;
   border-radius: 5px;
   text-decoration: none;
-  font-weight: 600;
-  transition: var(--transition);
-  border: none;
 }
 
-.signup-btn a:hover {
-  background-color: #113d4691;
-  transform: scale(1.1);
-}
-
+/* Toggle Button Styles */
 .toggle-btn {
   display: none;
-  flex-direction: column;
-  cursor: pointer;
   background: none;
   border: none;
-  padding: 0;
+  cursor: pointer;
+  padding: 10px;
 }
 
 .toggle-btn span {
   display: block;
   width: 25px;
   height: 3px;
-  background-color: #ffffff;
-  margin: 4px 0;
-  transition: var(--transition);
+  background-color: #333;
+  margin: 5px 0;
+  transition: all 0.3s ease;
 }
 
-/* Responsive Styles */
+/* Responsive Styles for Smaller Devices */
 @media (max-width: 768px) {
-  .navbar-container {
-    flex-wrap: nowrap;
-    justify-content: space-between;
-  }
-
-  .toggle-btn {
-    display: flex;
-    order: 1; /* Left */
-  }
-
-  .logo {
-    order: 2; /* Center */
-    flex-grow: 1;
-    text-align: center;
-  }
-
-  .signup-btn {
-    order: 3; /* Right */
-  }
-
   .nav-links {
-    display: none;
-    flex-direction: column;
-    width: 100%;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: var(--navbar-bg);
-    padding: 10px 0;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    position: fixed;
+    top: 56px; /* Adjusted to be right under the navbar */
+    left: -100%; /* Start off-screen */
+    width: 250px;
+    height: calc(100% - 56px); /* Full height minus navbar height */
+    background-color: #f8f9fa;
+    padding: 2rem;
+    margin: 0;
+    transition: left 0.3s ease-out; /* Slide-in effect */
   }
 
   .nav-links.active {
-    display: flex;
+    left: 0; /* Slide in from the left */
   }
 
   .nav-links li {
-    margin: 0;
-    text-align: center;
+    display: flex; /* Make each item a flex container */
+    align-items: center; /* Center icons and text vertically */
+    padding: 0.75rem 0; /* Add vertical padding */
+    margin: 1rem 0; /* Space between items */
+    font-size: 18px; /* Increased font size for smaller screens */
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
   }
 
-  .nav-links a {
-    padding: 12px;
-    display: block;
+  .nav-links.active li {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Show icons on smaller screens */
+  .nav-links li i {
+    margin-right: 10px; /* Space between icon and text */
+  }
+
+  .toggle-btn {
+    display: block; /* Show toggle button on smaller screens */
+  }
+
+  /* Toggle Button Active State */
+  .toggle-btn.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+
+  .toggle-btn.active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .toggle-btn.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px);
+  }
+
+  .signup-btn {
+    margin-top: 1rem;
   }
 }
 
-/* Additional Breakpoints for Specific Devices */
-@media (max-width: 480px) {
-  .navbar-container {
-    padding: 10px;
+/* Ensure icons are hidden on larger screens */
+@media (min-width: 769px) {
+  .nav-links li i {
+    display: none; /* Hide icons on larger screens */
   }
 
-  .logo img {
-    width: 40px;
-  }
-
-  .signup-btn a {
-    padding: 8px 12px;
-    font-size: 14px;
-  }
-}
-
-/* iPhone SE */
-@media (max-width: 375px) {
-  .nav-links a {
-    font-size: 14px;
-  }
-
-  .signup-btn a {
-    padding: 7px 10px;
-    font-size: 13px;
-  }
-}
-
-/* iPad Pro */
-@media (min-width: 769px) and (max-width: 1024px) {
-  .nav-links a {
-    font-size: 16px;
-  }
-
-  .signup-btn a {
-    padding: 9px 13px;
-    font-size: 15px;
-  }
-}
-
-/* Galaxy Fold 5 */
-@media (max-width: 560px) {
-  .nav-links a {
-    font-size: 14px;
-  }
-
-  .signup-btn a {
-    padding: 7px 11px;
-    font-size: 13px;
-  }
-}
-
-/* Surface Pro 7 */
-@media (max-width: 912px) {
-  .nav-links a {
-    font-size: 15px;
-  }
-
-  .signup-btn a {
-    padding: 8px 12px;
-    font-size: 14px;
-  }
-}
-
-/* Surface Duo */
-@media (max-width: 540px) {
-  .nav-links a {
-    font-size: 14px;
-  }
-
-  .signup-btn a {
-    padding: 7px 11px;
-    font-size: 13px;
-  }
+  /* Additional styles for larger screens can go here if needed */
 }
